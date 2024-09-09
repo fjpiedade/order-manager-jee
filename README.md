@@ -2,6 +2,7 @@
 
 API where users can create and manage orders. Items can be ordered and orders are automatically fulfilled as soon as the item stock allows it.
 
+<img width="1307" alt="Screenshot 2024-09-09 at 1 46 39 AM" src="https://github.com/user-attachments/assets/e1666e41-caa2-4469-a78d-866a236184ce">
 
 ---
 ## Specifications or Functionalities
@@ -166,6 +167,12 @@ Test using any HTTP Client, I used Postman
 ### Order
 
 
+### Order
+
+<img width="783" alt="Screenshot 2024-09-09 at 1 59 09 AM" src="https://github.com/user-attachments/assets/0dafdf45-4d6c-4cca-af86-5532a10ebaf8">
+
+
+
 HTTP requests [httpie](https://httpie.io):
 
 - POST /api/v1/item
@@ -182,3 +189,5 @@ Content-Type: application/json
     "name": "noname"
 }
 ```
+
+
