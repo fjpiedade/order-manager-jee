@@ -6,8 +6,8 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import phi.fjpiedade.api8demo.dominio.item.ItemModel;
-import phi.fjpiedade.api8demo.dominio.stock.StockModel;
+import phi.fjpiedade.api8demo.domain.item.ItemModel;
+import phi.fjpiedade.api8demo.domain.stock.StockModel;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

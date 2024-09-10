@@ -1,14 +1,13 @@
-package phi.fjpiedade.api8demo.dominio.order;
+package phi.fjpiedade.api8demo.domain.stock;
 
 import jakarta.persistence.*;
-import phi.fjpiedade.api8demo.dominio.item.ItemModel;
-import phi.fjpiedade.api8demo.dominio.user.UserModel;
+import phi.fjpiedade.api8demo.domain.item.ItemModel;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name ="tb_order")
-public class OrderModel {
+@Table(name ="tb_stock")
+public class StockModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,15 +15,9 @@ public class OrderModel {
     @Column(nullable = false)
     private int quantity;
 
-    private int fulfilledQuantity;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "item_id", nullable = false)
     private ItemModel item;
-
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserModel user;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -45,28 +38,12 @@ public class OrderModel {
         this.quantity = quantity;
     }
 
-    public int getFulfilledQuantity() {
-        return fulfilledQuantity;
-    }
-
-    public void setFulfilledQuantity(int fulfilledQuantity) {
-        this.fulfilledQuantity = fulfilledQuantity;
-    }
-
     public ItemModel getItem() {
         return item;
     }
 
     public void setItem(ItemModel item) {
         this.item = item;
-    }
-
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {

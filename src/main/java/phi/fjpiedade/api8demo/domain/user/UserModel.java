@@ -1,4 +1,4 @@
-package phi.fjpiedade.api8demo.dominio.user;
+package phi.fjpiedade.api8demo.domain.user;
 
 import jakarta.persistence.*;
 
