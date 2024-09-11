@@ -95,6 +95,6 @@
                 <version>3.3.2</version>
             </plugin>
         </plugins>
-    <finalName>api8demo</finalName>
+    <finalName>apiorder</finalName>
     </build>
 </project>
