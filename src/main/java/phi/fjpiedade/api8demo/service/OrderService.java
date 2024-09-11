@@ -3,6 +3,8 @@ package phi.fjpiedade.api8demo.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import phi.fjpiedade.api8demo.domain.item.ItemModel;
 import phi.fjpiedade.api8demo.domain.order.OrderModel;
 import phi.fjpiedade.api8demo.domain.user.UserModel;
@@ -16,19 +18,24 @@ import java.util.List;
 
 @ApplicationScoped
 public class OrderService {
+    @Inject
     private OrderRepository orderRepository;
+    @Inject
     private ItemRepository itemRepository;
+    @Inject
     private UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(StockOrderService.class);
 
     public OrderService() {
     }
 
-    @Inject
-    public OrderService(OrderRepository orderRepository, ItemRepository itemRepository, UserRepository userRepository) {
-        this.orderRepository = orderRepository;
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
-    }
+//    @Inject
+//    public OrderService(OrderRepository orderRepository, ItemRepository itemRepository, UserRepository userRepository) {
+//        this.orderRepository = orderRepository;
+//        this.itemRepository = itemRepository;
+//        this.userRepository = userRepository;
+//    }
 
     public List<OrderModel> getAllOrders() {
         return orderRepository.findAll();
@@ -37,18 +44,24 @@ public class OrderService {
     @Transactional
     public OrderModel createOrder(OrderModel order) {
         ItemModel item = itemRepository.findById(order.getItem().getId());
+
+        logger.info("Order to be create: " + order);
+
         if (item == null) {
+            logger.error("Item does not exist: " + order.getItem());
             throw new IllegalArgumentException("Item does not exist.");
         }
 
         UserModel user = userRepository.findById(order.getUser().getId());
         if (user == null) {
+            logger.error("User does not exist: " + order.getUser());
             throw new IllegalArgumentException("User does not exist.");
         }
 
         order.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         orderRepository.save(order);
+        logger.info("Create new Order: " + order.getId());
 
         return order;
     }
@@ -67,7 +80,7 @@ public class OrderService {
         order.setQuantity(updatedOrder.getQuantity());
         order.setFulfilledQuantity(updatedOrder.getFulfilledQuantity());
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        orderRepository.save(order);
+        orderRepository.update(order);
 
         return order;
     }

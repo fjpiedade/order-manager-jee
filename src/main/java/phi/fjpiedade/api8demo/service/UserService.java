@@ -1,6 +1,8 @@
 package phi.fjpiedade.api8demo.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import phi.fjpiedade.api8demo.domain.user.UserModel;
 import phi.fjpiedade.api8demo.repository.user.UserRepository;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @ApplicationScoped
 public class UserService {
     private UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService() {
     }
@@ -26,6 +30,12 @@ public class UserService {
     }
 
     public UserModel createUser(UserModel user) {
+        UserModel userByEmail = userRepository.findByEmail(user.getEmail());
+        if (userByEmail != null) {
+            logger.error("Email of User already Exist!");
+            throw new IllegalArgumentException("Email of User already Exist!");
+        }
+
         user.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         userRepository.save(user);
@@ -42,7 +52,7 @@ public class UserService {
             user.setName(updatedUser.getName());
             user.setEmail(updatedUser.getEmail());
             user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-            userRepository.save(user);
+            userRepository.update(user);
         }
         return user;
     }

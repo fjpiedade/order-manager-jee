@@ -11,6 +11,7 @@ import phi.fjpiedade.api8demo.repository.item.ItemRepository;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class StockService {
@@ -77,4 +78,24 @@ public class StockService {
 
         stockRepository.delete(stock);
     }
+
+    public int checkStockQuantity(ItemModel item) {
+        Optional<StockModel> stockFounded = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
+        if (!stockFounded.isPresent()) {
+            return -1;
+        }
+
+        if (stockFounded.get().getQuantity() <= 0) {
+            return 0;
+        }
+
+        return stockFounded.get().getQuantity();
+    }
+
+    public void reduceStockQuantity(ItemModel item, int quantity) {
+        Optional<StockModel> stockEntity = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
+        int currentQuantity = stockEntity.get().getQuantity();
+        stockEntity.ifPresent(entity -> entity.setQuantity(currentQuantity - quantity));
+    }
+
 }

@@ -2,6 +2,7 @@ package phi.fjpiedade.api8demo.repository.user;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import phi.fjpiedade.api8demo.domain.user.UserModel;
@@ -9,7 +10,7 @@ import phi.fjpiedade.api8demo.domain.user.UserModel;
 import java.util.List;
 
 @ApplicationScoped
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
 
     @PersistenceContext(unitName = "default")
     private EntityManager em;
@@ -25,13 +26,27 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public UserModel findByEmail(String email) {
+        try {
+            return em.createQuery("SELECT u FROM UserModel u WHERE u.email = :email", UserModel.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;  // No user found with this email
+        }
+    }
+
+    @Override
     @Transactional
     public void save(UserModel user) {
-        if (user.getId() == null) {
-            em.persist(user);
-        } else {
-            em.merge(user);
-        }
+        em.persist(user);
+        em.flush();
+    }
+
+    @Override
+    @Transactional
+    public void update(UserModel user) {
+        em.merge(user);
         em.flush();
     }
 

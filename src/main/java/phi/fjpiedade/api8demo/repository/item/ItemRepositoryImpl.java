@@ -27,11 +27,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     @Transactional
     public void save(ItemModel item) {
-        if (item.getId() == null) {
-            em.persist(item);
-        } else {
-            em.merge(item);
-        }
+        em.persist(item);
+        em.flush();
+    }
+
+    @Override
+    @Transactional
+    public void update(ItemModel item) {
+        em.merge(item);
         em.flush();
     }
 

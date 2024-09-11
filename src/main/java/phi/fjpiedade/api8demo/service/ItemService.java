@@ -41,7 +41,7 @@ public class ItemService {
         if (item != null) {
             item.setName(updatedItem.getName());
             item.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-            itemRepository.save(item);
+            itemRepository.update(item);
         }
         return item;
     }

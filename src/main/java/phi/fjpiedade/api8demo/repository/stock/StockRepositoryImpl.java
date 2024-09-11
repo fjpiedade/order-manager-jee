@@ -50,7 +50,6 @@ public class StockRepositoryImpl implements StockRepository {
     @Override
     @Transactional
     public void update(StockModel stock) {
-
         em.merge(stock);
         em.flush();
     }

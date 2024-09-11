@@ -5,7 +5,9 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import phi.fjpiedade.api8demo.domain.order.OrderModel;
 import phi.fjpiedade.api8demo.domain.stock.StockModel;
+import phi.fjpiedade.api8demo.service.StockOrderService;
 import phi.fjpiedade.api8demo.service.StockService;
 
 import java.util.Collections;
@@ -13,15 +15,19 @@ import java.util.List;
 
 @Path("/stock")
 public class StockResource {
+    @Inject
     private StockService stockService;
+
+    @Inject
+    private StockOrderService stockOrderService;
 
     public StockResource() {
     }
 
-    @Inject
-    public StockResource(StockService stockService) {
-        this.stockService = stockService;
-    }
+//    @Inject
+//    public StockResource(StockService stockService) {
+//        this.stockService = stockService;
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +69,13 @@ public class StockResource {
                     .entity(Collections.singletonMap("message", "Stock not found"))
                     .build();
         }
+
+        // Check if any orders can be satisfied after adding stock
+        List<OrderModel> pendingOrders = stockOrderService.getPendingOrdersForItem(stock.getItem().getId());
+        for (OrderModel order : pendingOrders) {
+            stockOrderService.trySatisfyOrder(order);
+        }
+
         return Response.ok(stock).build();
     }
 

@@ -27,11 +27,17 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     @Transactional
     public void save(OrderModel order) {
-        if (order.getId() == null) {
-            em.persist(order);
-        } else {
-            em.merge(order);
-        }
+        em.detach(order.getItem());
+        em.detach(order.getUser());
+        em.persist(order);
+        em.flush();
+    }
+
+    @Override
+    public void update(OrderModel order) {
+        em.detach(order.getItem());
+        em.detach(order.getUser());
+        em.merge(order);
         em.flush();
     }
 
@@ -43,5 +49,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         } else {
             em.remove(em.merge(order));
         }
+    }
+
+    public List<OrderModel> findIncompleteOrdersForItem(Long itemId) {
+        return em.createQuery("SELECT orderIncompleted  FROM OrderModel orderIncompleted WHERE orderIncompleted.item.id = :itemId AND quantity>fulfilledQuantity", OrderModel.class)
+                .setParameter("itemId", itemId)
+                .getResultList();
     }
 }

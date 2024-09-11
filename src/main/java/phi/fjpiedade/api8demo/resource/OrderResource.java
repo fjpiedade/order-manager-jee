@@ -7,21 +7,26 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import phi.fjpiedade.api8demo.domain.order.OrderModel;
 import phi.fjpiedade.api8demo.service.OrderService;
+import phi.fjpiedade.api8demo.service.StockOrderService;
 
 import java.util.Collections;
 import java.util.List;
 
 @Path("/order")
 public class OrderResource {
+    @Inject
     private OrderService orderService;
+    @Inject
+    private StockOrderService stockOrderService;
 
     public OrderResource() {
     }
 
-    @Inject
-    public OrderResource(OrderService orderService) {
-        this.orderService = orderService;
-    }
+//    @Inject
+//    public OrderResource(OrderService orderService, StockOrderService stockOrderService) {
+//        this.orderService = orderService;
+//        this.stockOrderService = stockOrderService;
+//    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +41,7 @@ public class OrderResource {
     public Response createOrder(OrderModel order) {
         try {
             OrderModel createdOrder = orderService.createOrder(order);
+            stockOrderService.trySatisfyOrder(createdOrder);
             return Response.status(Response.Status.CREATED).entity(createdOrder).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST)
