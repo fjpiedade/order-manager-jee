@@ -3,6 +3,8 @@ package phi.fjpiedade.api8demo.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import phi.fjpiedade.api8demo.domain.item.ItemModel;
 import phi.fjpiedade.api8demo.domain.stock.StockModel;
 import phi.fjpiedade.api8demo.repository.stock.StockRepository;
@@ -18,6 +20,8 @@ public class StockService {
     private StockRepository stockRepository;
     private ItemRepository itemRepository;
 
+    Logger logger = LoggerFactory.getLogger(StockService.class);
+
     public StockService() {
     }
 
@@ -28,10 +32,12 @@ public class StockService {
     }
 
     public List<StockModel> getAllStocks() {
+        logger.info("Fetching stock(s)");
         return stockRepository.findAll();
     }
 
     public StockModel getStockById(Long id) {
+        logger.info("Fetching user by ID {} ", id);
         return stockRepository.findById(id);
     }
 
@@ -40,11 +46,13 @@ public class StockService {
         ItemModel item = itemRepository.findById(stock.getItem().getId());
 
         if (item == null) {
-            throw new IllegalArgumentException("Item does not exist.");
+            logger.error("Stock does not exist.");
+            throw new IllegalArgumentException("Stock does not exist.");
         }
 
         StockModel existingStock = stockRepository.findByItemId(stock.getItem().getId());
         if (existingStock != null) {
+            logger.error("Item already exists in the stock.");
             throw new IllegalArgumentException("Item already exists in the stock.");
         }
 
@@ -52,6 +60,7 @@ public class StockService {
         stock.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         stockRepository.save(stock);
 
+        logger.info("stock created.");
         return stock;
     }
 
@@ -59,13 +68,14 @@ public class StockService {
     public StockModel updateStock(Long id, StockModel updatedStock) {
         StockModel stock = stockRepository.findById(id);
         if (stock == null) {
+            logger.error("Stock not found.");
             throw new IllegalArgumentException("Stock not found.");
         }
 
         stock.setQuantity(updatedStock.getQuantity());
         stock.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         stockRepository.update(stock);
-
+        logger.info("Stock created.");
         return stock;
     }
 
@@ -73,6 +83,7 @@ public class StockService {
     public void deleteStock(Long id) {
         StockModel stock = stockRepository.findById(id);
         if (stock == null) {
+            logger.error("Stock not found on delete process.");
             throw new IllegalArgumentException("Stock not found.");
         }
 
@@ -80,6 +91,7 @@ public class StockService {
     }
 
     public int checkStockQuantity(ItemModel item) {
+        logger.info("Stock checking quantity: {}", item.getId());
         Optional<StockModel> stockFounded = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
         if (!stockFounded.isPresent()) {
             return -1;
@@ -93,6 +105,7 @@ public class StockService {
     }
 
     public void reduceStockQuantity(ItemModel item, int quantity) {
+        logger.info("Stock reducing quantity: {}", item.getId());
         Optional<StockModel> stockEntity = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
         int currentQuantity = stockEntity.get().getQuantity();
         stockEntity.ifPresent(entity -> entity.setQuantity(currentQuantity - quantity));

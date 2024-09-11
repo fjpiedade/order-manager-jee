@@ -25,28 +25,20 @@ public class OrderService {
     @Inject
     private UserRepository userRepository;
 
-    Logger logger = LoggerFactory.getLogger(StockOrderService.class);
+    Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     public OrderService() {
     }
 
-//    @Inject
-//    public OrderService(OrderRepository orderRepository, ItemRepository itemRepository, UserRepository userRepository) {
-//        this.orderRepository = orderRepository;
-//        this.itemRepository = itemRepository;
-//        this.userRepository = userRepository;
-//    }
-
     public List<OrderModel> getAllOrders() {
+        logger.info("Fetching order(s)");
         return orderRepository.findAll();
     }
 
     @Transactional
     public OrderModel createOrder(OrderModel order) {
         ItemModel item = itemRepository.findById(order.getItem().getId());
-
         logger.info("Order to be create: " + order);
-
         if (item == null) {
             logger.error("Item does not exist: " + order.getItem());
             throw new IllegalArgumentException("Item does not exist.");
@@ -67,6 +59,7 @@ public class OrderService {
     }
 
     public OrderModel getOrderById(Long id) {
+        logger.info("Fetching Order By ID: {}", id);
         return orderRepository.findById(id);
     }
 
@@ -74,6 +67,7 @@ public class OrderService {
     public OrderModel updateOrder(Long id, OrderModel updatedOrder) {
         OrderModel order = orderRepository.findById(id);
         if (order == null) {
+            logger.error("Order not found.");
             throw new IllegalArgumentException("Order not found.");
         }
 
@@ -81,7 +75,7 @@ public class OrderService {
         order.setFulfilledQuantity(updatedOrder.getFulfilledQuantity());
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         orderRepository.update(order);
-
+        logger.info("Order updated");
         return order;
     }
 
@@ -89,9 +83,11 @@ public class OrderService {
     public void deleteOrder(Long id) {
         OrderModel order = orderRepository.findById(id);
         if (order == null) {
+            logger.error("Order not found on the delete process.");
             throw new IllegalArgumentException("Order not found.");
         }
 
+        logger.info("Order deleted");
         orderRepository.delete(order);
     }
 }

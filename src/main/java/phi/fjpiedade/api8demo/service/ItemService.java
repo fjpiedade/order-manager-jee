@@ -2,6 +2,8 @@ package phi.fjpiedade.api8demo.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import phi.fjpiedade.api8demo.domain.item.ItemModel;
 import phi.fjpiedade.api8demo.repository.item.ItemRepository;
 
@@ -13,6 +15,8 @@ import java.util.List;
 public class ItemService {
     private ItemRepository itemRepository;
 
+    Logger logger = LoggerFactory.getLogger(ItemService.class);
+
     public ItemService() {
     }
 
@@ -22,6 +26,7 @@ public class ItemService {
     }
 
     public List<ItemModel> getAllItems() {
+        logger.info("Fetching all items.");
         return itemRepository.findAll();
     }
 
@@ -29,29 +34,37 @@ public class ItemService {
         item.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         item.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         itemRepository.save(item);
+        logger.info("Creating new item.");
         return item;
     }
 
     public ItemModel getItemById(Long id) {
+        logger.info("Fetching item by id.");
         return itemRepository.findById(id);
     }
 
     public ItemModel updateItem(Long id, ItemModel updatedItem) {
         ItemModel item = itemRepository.findById(id);
-        if (item != null) {
-            item.setName(updatedItem.getName());
-            item.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-            itemRepository.update(item);
+        if (item == null) {
+            logger.error("Error occurred while updating item.");
+            throw new IllegalArgumentException("Error occurred while updating item.");
         }
+
+        item.setName(updatedItem.getName());
+        item.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
+        itemRepository.update(item);
+        logger.info("Updating item.");
         return item;
     }
 
     public boolean deleteItem(Long id) {
         ItemModel item = itemRepository.findById(id);
-        if (item != null) {
-            itemRepository.delete(item);
-            return true;
+        if (item == null) {
+            logger.error("Error deleting item.");
+            throw new IllegalArgumentException("Error occurred while deleting item.");
         }
-        return false;
+        logger.info("Item deleted.");
+        itemRepository.delete(item);
+        return true;
     }
 }

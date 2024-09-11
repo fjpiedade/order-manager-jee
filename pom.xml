@@ -79,6 +79,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.16</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.15.4</version> <!-- Ensure this matches the version of Jackson you're using -->
+        </dependency>
+
     </dependencies>
 
     <build>

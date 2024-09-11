@@ -34,9 +34,9 @@ public class StockOrderService {
                 int quantityNeeded = order.getQuantity() - currentQuantityExistingOnStock;
                 if (quantityNeeded > 0) {
                     int quantityToUse = (int) Math.min(quantityNeeded, currentQuantityExistingOnStock);
-                order.setFulfilledQuantity(order.getFulfilledQuantity() + quantityToUse);
-                stockService.reduceStockQuantity(order.getItem(), quantityToUse);
-                logger.info("Order not completed, missing quantity of item. Pending: " + order.getId());
+                    order.setFulfilledQuantity(order.getFulfilledQuantity() + quantityToUse);
+                    stockService.reduceStockQuantity(order.getItem(), quantityToUse);
+                    logger.info("Order not completed, missing quantity of item. Pending: " + order.getId());
                 }
             }
         } else {
@@ -60,6 +60,7 @@ public class StockOrderService {
     }
 
     public List<OrderModel> getPendingOrdersForItem(Long itemId) {
+        logger.info("Get padding Order");
         return orderRepository.findIncompleteOrdersForItem(itemId);
     }
 }
