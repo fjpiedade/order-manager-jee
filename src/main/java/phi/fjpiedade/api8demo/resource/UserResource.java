@@ -38,6 +38,11 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(UserModel user) {
         UserModel createdUser = userService.createUser(user);
+        if (createdUser == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(Collections.singletonMap("message", "Email of User already Exist!"))
+                    .build();
+        }
         return Response.status(Response.Status.CREATED).entity(createdUser).build();
     }
 

@@ -35,7 +35,8 @@ public class UserService {
         UserModel userByEmail = userRepository.findByEmail(user.getEmail());
         if (userByEmail != null) {
             logger.error("Email of User already Exist!");
-            throw new IllegalArgumentException("Email of User already Exist!");
+            return null;
+            //throw new IllegalArgumentException("Email of User already Exist!");
         }
 
         user.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
@@ -54,7 +55,8 @@ public class UserService {
         UserModel user = userRepository.findById(id);
         if (user == null) {
             logger.error("User not Found!");
-            throw new IllegalArgumentException("User not Found!");
+            //throw new IllegalArgumentException("User not Found!");
+            return null;
         }
 
         user.setName(updatedUser.getName());

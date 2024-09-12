@@ -31,6 +31,8 @@ The system should be able to provide the following features:
 - [ ] deploy application;
 
 ---
+## CLASS DIAGRAM
+Expand Class Diagram below to see full Diagram
 
 <details>
 <summary>Class Diagram - Mermeid plugin</summary>
@@ -116,10 +118,11 @@ To use this project, only need to make sure those tools below are installed.
 
 ## Technologies
 
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [SpringDoc OpenAPI 3](https://springdoc.org/v2/#spring-webflux-support)
-- [PostgresSQL](https://spring.io/projects/spring-boot)
-- [Docker](https://springdoc.org/v2/#spring-webflux-support)
+- [Jakarta EE 9.1](https://jakarta.ee/release/9.1/)
+- [Maven](https://maven.apache.org/)
+- [JBoss/Wildfly](https://www.wildfly.org/)
+- [PostgresSQL](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
 
 ## How to Run the Application
 
@@ -129,7 +132,26 @@ To use this project, only need to make sure those tools below are installed.
  git clone git@github.com:fjpiedade/order-manager-jee.git
 ```
 
-- Inside project folder run - will execute postgresSQL
+- Inside project folder run
+```
+ mvn clean package
+```
+
+- Start Build Docker Image - JBoss/WildFly - apply the project inside start on standalone mode
+```
+ docker build -t api-order .
+```
+
+- Start Docker Container - with JBoss/WildFly - apply the project inside start on standalone mode
+```
+ docker run -d -p 8881:8080 --name api-order-container api-order 
+```
+
+---
+
+---
+
+- Or execute using docker-compose
 ```
  docker compose up -d
 ```
@@ -139,36 +161,18 @@ To use this project, only need to make sure those tools below are installed.
  docker compose down
 ```
 
-or Run Local java app, using maven - after postgresSQL installed
-
-```
-./mvnw clean package
-```
-- Run:
-```
-java -jar api8demo/target/api8demo.jar
-```
-
 after run the project
 
-Localhost can access the API [localhost:9090](http://localhost:9090).
+Localhost can access the API [localhost:8881](http://localhost:8881).
 
-Find the Swagger here [localhost:9090/swagger-ui.html](http://localhost:9090/swagger-ui/index.html)
+--- 
 
+The Endpoint can be found on a Postman document
 
-
-## API Endpoints
-
-Test using any HTTP Client, I used Postman
-
-### Stock
+[localhost:8881](http://localhost:8881).
 
 
-### Order
-
-
-### Order
-
+## Examples
 <img width="783" alt="Screenshot 2024-09-09 at 1 59 09 AM" src="https://github.com/user-attachments/assets/0dafdf45-4d6c-4cca-af86-5532a10ebaf8">
 
 
