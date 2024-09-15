@@ -1,19 +1,55 @@
-version: '3'
+#version: '3'
+#
+#services:
+#  wildfly:
+#    image: api-order
+#    ports:
+#      - "8881:8080"
+#    environment:
+#      JAVA_OPTS: "-Xms512m -Xmx1024m"
+#    depends_on:
+#      - postgres
+#
+#  postgres:
+#    image: postgres:latest
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5433:5432"
+
 
 services:
-  wildfly:
-    image: api-order
+  db:
+    image: postgres
+    container_name: postgres_order
+    restart: always
     ports:
-      - "8881:8080"
-    environment:
-      JAVA_OPTS: "-Xms512m -Xmx1024m"
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:latest
+      - "5433:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order_manager
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_order
+    restart: always
     ports:
-      - "5433:5432"
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - db
+
+  wildfly:
+    build: .
+    container_name: wildfly-33-custom
+    ports:
+      - "8881:8080"
+      - "9990:9990"
+    environment:
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+    depends_on:
+      - db
+

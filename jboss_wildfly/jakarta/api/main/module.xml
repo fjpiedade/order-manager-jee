@@ -1,0 +1,11 @@
+<module xmlns="urn:jboss:module:1.5" name="jakarta.api">
+	<resources>
+		<resource-root path="jakarta.jakartaee-api-9.0.0-RC3.jar" />
+	</resources>
+	<dependencies>
+		<module name="java.se" export="true" />
+		<module name="java.xml" export="true" />
+		<module name="java.xml.crypto" export="true" />
+		<module name="jdk.xml.dom" export="true" />
+	</dependencies>
+</module>

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
+import phi.fjpiedade.apiorder.domain.GeneralResponse;
 import phi.fjpiedade.apiorder.domain.user.UserModel;
 import phi.fjpiedade.apiorder.service.UserService;
 
@@ -41,11 +42,27 @@ public class UserResource {
     public Response createUser(UserModel user) {
         UserModel createdUser = userService.createUser(user);
         if (createdUser == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(Collections.singletonMap("message", "Email of User already Exist!"))
-                    .build();
+//            return Response.status(Response.Status.BAD_REQUEST)
+//                    .entity(Collections.singletonMap("message", "Email of User already Exist!"))
+//                    .build();
+
+            GeneralResponse errorResponse = new GeneralResponse(
+                    Response.Status.BAD_REQUEST.getStatusCode(),
+                    Response.Status.BAD_REQUEST.toString(),
+                    "Email of User already exists!",
+                    null
+            );
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
-        return Response.status(Response.Status.CREATED).entity(createdUser).build();
+
+        GeneralResponse successResponse = new GeneralResponse(
+                Response.Status.CREATED.getStatusCode(),
+                Response.Status.CREATED.toString(),
+                "User created successfully",
+                createdUser
+        );
+
+        return Response.status(Response.Status.CREATED).entity(successResponse).build();
     }
 
     @GET

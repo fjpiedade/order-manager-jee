@@ -6,40 +6,15 @@
     <persistence-unit name="default" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
 
-        <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-
-<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-
         <class>phi.fjpiedade.apiorder.domain.user.UserModel</class>
         <class>phi.fjpiedade.apiorder.domain.item.ItemModel</class>
         <class>phi.fjpiedade.apiorder.domain.stock.StockModel</class>
         <class>phi.fjpiedade.apiorder.domain.order.OrderModel</class>
 
         <properties>
-
-<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://0.0.0.0:5433/order_manager"/>-->
-<!--            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
-<!--            <property name="jakarta.persistence.jdbc.user" value="postgres"/>-->
-<!--            <property name="jakarta.persistence.jdbc.password" value="postgres"/>-->
-
-
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>-->
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-<!--            <property name="hibernate.hbm2ddl.auto" value="create"/>-->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-
-
-            <!--            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test;DB_CLOSE_DELAY=-1"/>-->
-<!--            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>-->
-<!--            <property name="javax.persistence.jdbc.user" value="sa"/>-->
-<!--            <property name="javax.persistence.jdbc.password" value=""/>-->
-
-            <!-- Hibernate-specific properties -->
-<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
-<!--            <property name="hibernate.hbm2ddl.auto" value="create"/> &lt;!&ndash; Options: create, update, validate, none &ndash;&gt;-->
-<!--            <property name="hibernate.show_sql" value="true"/>       &lt;!&ndash; Show SQL queries in the console &ndash;&gt;-->
-<!--            <property name="hibernate.format_sql" value="true"/>     &lt;!&ndash; Format SQL output for better readability &ndash;&gt;-->
         </properties>
 
     </persistence-unit>

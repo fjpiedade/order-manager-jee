@@ -106,13 +106,13 @@ Fernando Piedade
 
 To use this project, only need to make sure those tools below are installed.
 
-| Lib                | Description             |
-|--------------------|-------------------------|
-| `jdk-17`           | Java Development Kit 17 |
-| `jakarta 9.1`      | Enterprise Edition      |
-| `JBoss/WildFly 33` | Webserver               |
-| `maven`            | Dependencies Manager    |
-| `docker`           | Container Management    |
+| Lib                          | Description             |
+|------------------------------|-------------------------|
+| `jdk-17`                     | Java Development Kit 17 |
+| `jakarta 9.1`                | Enterprise Edition      |
+| `JBoss/WildFly 33.0.1.Final` | Webserver               |
+| `maven`                      | Dependencies Manager    |
+| `docker`                     | Container Management    |
 
 ---
 
@@ -125,12 +125,28 @@ To use this project, only need to make sure those tools below are installed.
 - [Docker](https://www.docker.com/)
 
 ## How to Run the Application
+- Postgresql installed
+- JBoss/WildFly installed and configured
+- Deploy the .war in JBoss, after created
+
 
 ### Local
-- Clone the project from GitHUB repository
+- Clone the project from GitHub
 ```
  git clone git@github.com:fjpiedade/order-manager-jee.git
 ```
+
+### Postgresql using docker or local
+- With Docker already installed - Inside project folder execute command below to run Postgres as container.
+```
+ docker compose -d up
+```
+
+### Configuration JBoss/WildFly Locally
+- Download [JBoss/Wildfly](https://www.wildfly.org/downloads/) according to the version above.
+- Install module containing the Postgresql JDBC Driver and Jakarta.API Dependencies.
+- Finally, install the datasource which will connect to Postgresql
+
 
 - Inside project folder run
 ```
