@@ -1,27 +1,3 @@
-## Use the official WildFly image from Docker Hub
-#FROM jboss/wildfly:33.0.1.Final
-#
-## Set environment variables
-#ENV JAVA_OPTS="-Xms512m -Xmx1024m"
-#
-## Add your WAR file to the deployments directory
-#COPY target/apiorder.war /opt/jboss/wildfly/standalone/deployments/
-#
-## Copy api folder with jakarta.api dependences to support postgresql hibernates
-#COPY jboss_wildfly/jakarta/api /opt/jboss/wildfly/modules/system/layers/base/jakarta/
-#
-## copy postgresql drive and Drive as module supported by JBoss/WildFly
-#COPY jboss_wildfly/postgresql /opt/jboss/wildfly/modules/system/layers/base/
-#
-## Add standalone.xml configured with Postgres Datasource
-#COPY jboss_wildfly/standalone.xml /opt/jboss/wildfly/standalone/configuration/
-#
-## Expose port 8080 (WildFly default port)
-#EXPOSE 8080
-#
-## Start WildFly server in standalone mode
-#CMD ["./wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
-
 # Use OpenJDK as the base image
 FROM openjdk:17-jdk-slim
 
@@ -50,8 +26,8 @@ COPY jboss_wildfly/standalone.xml ${WILDFLY_HOME}/standalone/configuration/
 # Copy WAR file or other deployments
 COPY target/apiorder.war ${WILDFLY_HOME}/standalone/deployments/
 
-# Expose WildFly port (default is 8080)
-EXPOSE 8080
+# Expose WildFly port (default is 8081)
+EXPOSE 8881
 
 # Set the working directory to WildFly home
 WORKDIR ${WILDFLY_HOME}
