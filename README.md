@@ -1,4 +1,4 @@
-# ORDER MANAGER APPLICATION - JAKARTA EE 9.1
+# ORDER MANAGER APPLICATION
 
 API where users can create and manage orders. Items can be ordered and orders are automatically fulfilled as soon as the item stock allows it.
 
@@ -16,10 +16,8 @@ The system should be able to provide the following features:
 - [x] trace the list of stock movements that were used to complete the order, and vice versa;
 - [x] show the current completion of each order;
 - [x] write a log file with orders completed, stock movements, emails sent, and errors.
-
 ---
 
----
 ## Additional Functionalities
 
 - [x] junit and mockito - unit and integration test;
@@ -96,11 +94,6 @@ classDiagram
 </details>
 
 ---
-## Authors
-
----
-Fernando Piedade
-
 
 ## Installation
 
@@ -125,33 +118,55 @@ To use this project, only need to make sure those tools below are installed.
 - [Docker](https://www.docker.com/)
 
 ## How to Run the Application
-- Postgresql installed
-- JBoss/WildFly installed and configured
-- Deploy the .war in JBoss, after created
 
-
-### Local
+---
 - Clone the project from GitHub
 ```
  git clone git@github.com:fjpiedade/order-manager-jee.git
 ```
+- Inside project folder run
+```
+ mvn clean package
+```
+---
+
+## Easy Run using docker-compose
+- inside the folder of project cloned
+
+```
+ docker compose build
+```
+next
+
+```
+ docker compose up -d
+```
+
+- To stop run the Project
+```
+ docker compose down
+```
+- Next test the endpoints
+
+## Or run using hard way
+
+- Install Postgresql - Database
+- Download and configure the JBoss/WildFly - Webserver
+- Build the .war and deploy in JBoss
 
 ### Postgresql using docker or local
-- With Docker already installed - Inside project folder execute command below to run Postgres as container.
-```
- docker compose -d up
-```
+- Install and create the order_manager as name of database.
+
 
 ### Configuration JBoss/WildFly Locally
 - Download [JBoss/Wildfly](https://www.wildfly.org/downloads/) according to the version above.
 - Install module containing the Postgresql JDBC Driver and Jakarta.API Dependencies.
 - Finally, install the datasource which will connect to Postgresql
+- Inside project folder can found the standalone.xml, jakarta.api dependence and postgresql driver
 
 
-- Inside project folder run
-```
- mvn clean package
-```
+Next
+
 
 - Start Build Docker Image - JBoss/WildFly - apply the project inside start on standalone mode
 ```
@@ -162,52 +177,26 @@ To use this project, only need to make sure those tools below are installed.
 ```
  docker run -d -p 8881:8080 --name api-order-container api-order 
 ```
-
 ---
-
----
-
-- Or execute using docker-compose
-```
- docker compose up -d
-```
-
-- Stop run the Project
-```
- docker compose down
-```
 
 after run the project
 
-Localhost can access the API [localhost:8881](http://localhost:8881).
+Localhost root endpoint can access the API using this url [localhost:8881](http://localhost:8881/apiorder/api/v1/).
 
 --- 
 
-The Endpoint can be found on a Postman document
+The Endpoint example end explanation can be found on a Postman document
 
 [Postman Documentation](https://documenter.getpostman.com/view/17034847/2sAXqndj9E).
 
 
-## Examples
+### Examples
 <img width="783" alt="Screenshot 2024-09-09 at 1 59 09 AM" src="https://github.com/user-attachments/assets/0dafdf45-4d6c-4cca-af86-5532a10ebaf8">
 
+---
+## Authors
 
-
-HTTP requests [httpie](https://httpie.io):
-
-- POST /api/v1/item
-
-```
-http POST :9090/api/v1/user name="User" state="State"
-
-HTTP/1.1 200 OK
-Content-Length: 129
-Content-Type: application/json
-
-{
-    "email": "noname.joao@gmail.com",
-    "name": "noname"
-}
-```
+---
+Fernando Piedade
 
 
