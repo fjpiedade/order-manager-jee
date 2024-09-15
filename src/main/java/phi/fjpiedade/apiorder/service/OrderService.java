@@ -90,4 +90,9 @@ public class OrderService {
         logger.info("Order deleted");
         orderRepository.delete(order);
     }
+
+    public List<OrderModel> getAllCompletedOrders() {
+        logger.info("Fetching completed order(s)");
+        return orderRepository.findCompletedOrders();
+    }
 }

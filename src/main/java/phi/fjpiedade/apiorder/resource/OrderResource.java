@@ -24,12 +24,6 @@ public class OrderResource {
     public OrderResource() {
     }
 
-//    @Inject
-//    public OrderResource(OrderService orderService, StockOrderService stockOrderService) {
-//        this.orderService = orderService;
-//        this.stockOrderService = stockOrderService;
-//    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<OrderModel> getOrders() {
@@ -94,4 +88,12 @@ public class OrderResource {
                     .build();
         }
     }
+
+    @GET()
+    @Path("/completed")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<OrderModel> getOrdersCompleted() {
+        return orderService.getAllCompletedOrders();
+    }
+
 }

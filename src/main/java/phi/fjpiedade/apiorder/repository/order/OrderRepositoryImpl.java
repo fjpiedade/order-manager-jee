@@ -54,8 +54,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     public List<OrderModel> findIncompleteOrdersForItem(Long itemId) {
-        return em.createQuery("SELECT orderIncompleted  FROM OrderModel orderIncompleted WHERE orderIncompleted.item.id = :itemId AND quantity>fulfilledQuantity", OrderModel.class)
+        return em.createQuery("SELECT orderIncompleted  FROM OrderModel orderIncompleted WHERE orderIncompleted.item.id = :itemId AND orderIncompleted.quantity>orderIncompleted.fulfilledQuantity", OrderModel.class)
                 .setParameter("itemId", itemId)
                 .getResultList();
+    }
+
+    @Override
+    public List<OrderModel> findCompletedOrders() {
+        return em.createQuery(
+                "SELECT orders FROM OrderModel orders WHERE orders.quantity = orders.fulfilledQuantity",
+                OrderModel.class
+        ).getResultList();
     }
 }

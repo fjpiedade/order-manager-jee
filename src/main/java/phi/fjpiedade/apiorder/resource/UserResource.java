@@ -106,4 +106,5 @@ public class UserResource {
         }
         return Response.ok(Collections.singletonMap("message", "User deleted successfully")).build();
     }
+
 }

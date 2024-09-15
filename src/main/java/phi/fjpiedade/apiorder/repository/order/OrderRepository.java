@@ -11,4 +11,5 @@ public interface OrderRepository {
     void update(OrderModel order);
     void delete(OrderModel order);
     List<OrderModel> findIncompleteOrdersForItem(Long itemId);
+    List<OrderModel> findCompletedOrders();
 }
