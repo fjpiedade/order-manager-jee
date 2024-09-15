@@ -169,7 +169,7 @@ Localhost can access the API [localhost:8881](http://localhost:8881).
 
 The Endpoint can be found on a Postman document
 
-[localhost:8881](http://localhost:8881).
+[Postman Documentation](https://documenter.getpostman.com/view/17034847/2sAXqndj9E).
 
 
 ## Examples

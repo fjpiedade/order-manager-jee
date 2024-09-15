@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>phi.fjpiedade</groupId>
-    <artifactId>api8demo</artifactId>
+    <artifactId>apiorder</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>api8demo</name>
     <packaging>war</packaging>
@@ -59,20 +59,38 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>5.6.10.Final</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.orm</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>6.5.2.Final</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.orm</groupId>-->
+<!--            <artifactId>hibernate-core-jakarta</artifactId>-->
+<!--            <version>6.0.0.Alpha9</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.6.10.Final</version>
+            <artifactId>hibernate-core-jakarta</artifactId>
+            <version>5.6.15.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.5.2.Final</version>
-        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.weld.se</groupId>-->
+<!--            <artifactId>weld-se-core</artifactId>-->
+<!--            <version>4.0.2.Final</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -84,6 +102,19 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.15.4</version> <!-- Ensure this matches the version of Jackson you're using -->
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.wildfly.bom</groupId>-->
+<!--            <artifactId>wildfly-ee</artifactId>-->
+<!--            <version>33.0.0.Final</version>-->
+<!--        </dependency>-->
+<!--                <dependency>-->
+<!--            <groupId>jakarta.faces</groupId>-->
+<!--            <artifactId>jakarta.faces-api</artifactId>-->
+<!--            <version>4.0.0</version> &lt;!&ndash; Make sure this is at least 4.x &ndash;&gt;-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+
 
     </dependencies>
 
