@@ -18,11 +18,11 @@ public class OrderModel {
 
     private int fulfilledQuantity;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id", nullable = false)
     private ItemModel item;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel user;
 

@@ -8,7 +8,7 @@ public interface OrderRepository {
     List<OrderModel> findAll();
     OrderModel findById(Long id);
     OrderModel save(OrderModel order);
-    void update(OrderModel order);
+    OrderModel update(OrderModel order);
     void delete(OrderModel order);
     List<OrderModel> findIncompleteOrdersForItem(Long itemId);
     List<OrderModel> findCompletedOrders();

@@ -442,8 +442,14 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jsf:1.1"/>
         <subsystem xmlns="urn:jboss:domain:mail:4.0">
-            <mail-session name="default" jndi-name="java:jboss/mail/Default">
-                <smtp-server outbound-socket-binding-ref="mail-smtp"/>
+<!--            <mail-session name="default" jndi-name="java:jboss/mail/Default">-->
+<!--                <smtp-server outbound-socket-binding-ref="mail-smtp"/>-->
+<!--            </mail-session>-->
+            <mail-session name="default" jndi-name="java:jboss/mail/Default" debug="true">
+                <smtp-server outbound-socket-binding-ref="mail-smtp" ssl="true" username="raiztechroot@gmail.com" password="udjrduwfsivkrdrc">
+<!--                    <login name="raiztechroot@gmail.com" password="ttegzfjjuvvthkuq"/>-->
+<!--                    <credential-reference clear-text="udjrduwfsivkrdrc"/>-->
+                </smtp-server>
             </mail-session>
         </subsystem>
         <subsystem xmlns="urn:wildfly:metrics:1.0" security-enabled="false" exposed-subsystems="*" prefix="${wildfly.metrics.prefix:wildfly}"/>
@@ -527,8 +533,11 @@
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
+<!--        <outbound-socket-binding name="mail-smtp">-->
+<!--            <remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>-->
+<!--        </outbound-socket-binding>-->
         <outbound-socket-binding name="mail-smtp">
-            <remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>
+            <remote-destination host="smtp.gmail.com" port="465"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>

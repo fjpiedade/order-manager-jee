@@ -44,16 +44,18 @@ public class StockRepositoryImpl implements StockRepository {
 
     @Override
 //    @Transactional
-    public void save(StockModel stock) {
+    public StockModel save(StockModel stock) {
         em.persist(stock);
         em.flush();
+        return stock;
     }
 
     @Override
 //    @Transactional
-    public void update(StockModel stock) {
+    public StockModel update(StockModel stock) {
         em.merge(stock);
         em.flush();
+        return stock;
     }
 
     @Override

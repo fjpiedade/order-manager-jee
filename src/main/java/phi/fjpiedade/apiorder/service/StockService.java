@@ -17,18 +17,14 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class StockService {
+    @Inject
     private StockRepository stockRepository;
+    @Inject
     private ItemRepository itemRepository;
 
     Logger logger = LoggerFactory.getLogger(StockService.class);
 
     public StockService() {
-    }
-
-    @Inject
-    public StockService(StockRepository stockRepository, ItemRepository itemRepository) {
-        this.stockRepository = stockRepository;
-        this.itemRepository = itemRepository;
     }
 
     public List<StockModel> getAllStocks() {
@@ -58,10 +54,10 @@ public class StockService {
 
         stock.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         stock.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        stockRepository.save(stock);
+        StockModel stockCreated = stockRepository.save(stock);
 
         logger.info("stock created.");
-        return stock;
+        return stockCreated;
     }
 
     @Transactional
@@ -74,9 +70,9 @@ public class StockService {
 
         stock.setQuantity(updatedStock.getQuantity());
         stock.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        stockRepository.update(stock);
-        logger.info("Stock created.");
-        return stock;
+        StockModel stockUpdated = stockRepository.update(stock);
+        logger.info("Stock Updated.");
+        return stockUpdated;
     }
 
     @Transactional

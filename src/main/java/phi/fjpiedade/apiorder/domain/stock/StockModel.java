@@ -15,7 +15,7 @@ public class StockModel {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id", nullable = false)
     private ItemModel item;
 

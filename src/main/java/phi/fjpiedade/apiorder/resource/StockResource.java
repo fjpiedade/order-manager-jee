@@ -26,11 +26,6 @@ public class StockResource {
     public StockResource() {
     }
 
-//    @Inject
-//    public StockResource(StockService stockService) {
-//        this.stockService = stockService;
-//    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<StockModel> getStocks() {

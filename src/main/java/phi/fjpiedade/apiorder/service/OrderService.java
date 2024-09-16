@@ -38,7 +38,7 @@ public class OrderService {
     @Transactional
     public OrderModel createOrder(OrderModel order) {
         ItemModel item = itemRepository.findById(order.getItem().getId());
-        logger.info("Order to be create: " + order);
+        //logger.info("Order to be create: " + order);
         if (item == null) {
             logger.error("Item does not exist: " + order.getItem());
             throw new IllegalArgumentException("Item does not exist.");
@@ -52,10 +52,10 @@ public class OrderService {
 
         order.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        orderRepository.save(order);
-        logger.info("Create new Order: " + order.getId());
+        OrderModel orderCreated = orderRepository.save(order);
+        logger.info("Create new Order: " + orderCreated.getId());
 
-        return order;
+        return orderCreated;
     }
 
     public OrderModel getOrderById(Long id) {
@@ -74,9 +74,9 @@ public class OrderService {
         order.setQuantity(updatedOrder.getQuantity());
         order.setFulfilledQuantity(updatedOrder.getFulfilledQuantity());
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        orderRepository.update(order);
+        OrderModel orderUpdated = orderRepository.update(order);
         logger.info("Order updated");
-        return order;
+        return orderUpdated;
     }
 
     @Transactional

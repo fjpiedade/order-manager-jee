@@ -9,6 +9,7 @@ import phi.fjpiedade.apiorder.repository.order.OrderRepository;
 import java.util.List;
 
 import org.slf4j.Logger;
+import phi.fjpiedade.apiorder.repository.user.UserRepository;
 
 public class StockOrderService {
     @Inject
@@ -16,6 +17,12 @@ public class StockOrderService {
 
     @Inject
     private OrderRepository orderRepository;
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private EmailService emailService;
 
     Logger logger = LoggerFactory.getLogger(StockOrderService.class);
 
@@ -36,12 +43,12 @@ public class StockOrderService {
                     int quantityToUse = (int) Math.min(quantityNeeded, currentQuantityExistingOnStock);
                     order.setFulfilledQuantity(order.getFulfilledQuantity() + quantityToUse);
                     stockService.reduceStockQuantity(order.getItem(), quantityToUse);
-                    logger.info("Order not completed, missing quantity of item. Pending: " + order.getId());
+                    logger.info("Order not completed, missing quantity of items. Pending: {}", order.getId());
                 }
             }
         } else {
             order.setFulfilledQuantity(0);
-            logger.info("Order Pending: " + order.getId());
+            logger.info("Order Pending, Stock doesnt have quantity available: {}", order.getId());
         }
 
         orderRepository.save(order);
@@ -50,13 +57,13 @@ public class StockOrderService {
     private void orderCompleted(OrderModel order) {
 
         String subject = "Your Order Completed!";
-        String body = "Hi Dear " + order.getUser().getName() + ",\n\n" +
-                "Your order of " + order.getQuantity() + " items " +
-                order.getItem().getName() + " was completed!.\n" +
+        String body = "Hi Dear " + userRepository.findById(order.getItem().getId()).getName() + ",\n\n" +
+                "Your order of with ID: " + order.getId() + " and "+order.getQuantity()+" items was completed!.\n" +
                 "Thanks for choosing us!";
 
-        //emailService.sendOrderCompletionEmail(orderEntity.getUser().getEmail(), subject, body);
-        logger.info("Order completed and email sent by order: " + order.getId());
+        emailService.sendEmail(userRepository.findById(order.getItem().getId()).getEmail(), subject, body);
+
+        logger.info("Order completed and email sent to user, Order ID: {}", order.getId());
     }
 
     public List<OrderModel> getPendingOrdersForItem(Long itemId) {

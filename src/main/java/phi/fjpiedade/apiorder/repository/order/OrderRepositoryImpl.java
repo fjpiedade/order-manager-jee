@@ -37,11 +37,12 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void update(OrderModel order) {
+    public OrderModel update(OrderModel order) {
         em.detach(order.getItem());
         em.detach(order.getUser());
         em.merge(order);
         em.flush();
+        return order;
     }
 
     @Override

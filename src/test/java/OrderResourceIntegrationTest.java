@@ -12,7 +12,7 @@ public class OrderResourceIntegrationTest {
 
     @Test
     public void testCreateOrder() {
-        String orderJson = "{ \"id\": 1, \"quantity\": 10, \"fulfilledQuantity\": 10, \"item\": { \"id\": 1 }, \"user\": { \"id\": 1 } }";
+        String orderJson = "{ \"quantity\": 10, \"fulfilledQuantity\": 0, \"item\": { \"id\": 1 }, \"user\": { \"id\": 1 } }";
 
         Response response = RestAssured.given()
                 .contentType("application/json")
@@ -22,7 +22,7 @@ public class OrderResourceIntegrationTest {
         response.then()
                 .statusCode(201)
                 .body("quantity", equalTo(10))
-                .body("fulfilledQuantity", equalTo(10));
+                .body("fulfilledQuantity", equalTo(0));
     }
 
     @Test
