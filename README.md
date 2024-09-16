@@ -126,7 +126,7 @@ To use this project, only need to make sure those tools below are installed.
 ```
 - Inside project folder run
 ```
- mvn clean package
+ mvn clean package -DskipTests
 ```
 ---
 

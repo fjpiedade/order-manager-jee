@@ -28,11 +28,12 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
 //    @Transactional
-    public void save(OrderModel order) {
+    public OrderModel save(OrderModel order) {
         em.detach(order.getItem());
         em.detach(order.getUser());
         em.persist(order);
         em.flush();
+        return order;
     }
 
     @Override
