@@ -4,6 +4,9 @@ API where users can create and manage orders. Items can be ordered and orders ar
 
 <img width="1307" alt="Screenshot 2024-09-09 at 1 46 39 AM" src="https://github.com/user-attachments/assets/e1666e41-caa2-4469-a78d-866a236184ce">
 
+![Screenshot 2024-09-17 at 6 22 09 PM](https://github.com/user-attachments/assets/6af3d82c-143b-4c2f-88ff-ac02e2013abd)
+
+
 ---
 ## Specifications or Functionalities
 
@@ -190,8 +193,14 @@ The Endpoint example end explanation can be found on a Postman document
 [Postman Documentation](https://documenter.getpostman.com/view/17034847/2sAXqndj9E).
 
 
-### Examples
-<img width="783" alt="Screenshot 2024-09-09 at 1 59 09 AM" src="https://github.com/user-attachments/assets/0dafdf45-4d6c-4cca-af86-5532a10ebaf8">
+### Example Postman Request and Response
+
+<img width="1263" alt="Screenshot 2024-09-17 at 6 20 12 PM" src="https://github.com/user-attachments/assets/7afa4435-a797-44bc-bad6-d161df0db936">
+
+
+### Email Completed Order Sent
+
+![Screenshot 2024-09-17 at 2 31 49 PM](https://github.com/user-attachments/assets/92f7d940-7bfc-435a-a408-d7d6628e65ad)
 
 ---
 ## Authors
