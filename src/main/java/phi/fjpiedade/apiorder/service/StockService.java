@@ -43,7 +43,7 @@ public class StockService {
         ItemModel item = itemRepository.findById(stock.getItem().getId());
 
         if (item == null) {
-            logger.error("Stock does not exist.");
+            logger.error("Item does not exist.");
             //throw new IllegalArgumentException("Stock does not exist.");
             return null;
         }

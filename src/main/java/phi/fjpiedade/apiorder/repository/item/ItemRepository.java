@@ -7,7 +7,7 @@ import java.util.List;
 public interface ItemRepository {
     List<ItemModel> findAll();
     ItemModel findById(Long id);
-    void save(ItemModel item);
-    void update(ItemModel item);
+    ItemModel save(ItemModel item);
+    ItemModel update(ItemModel item);
     void delete(ItemModel item);
 }

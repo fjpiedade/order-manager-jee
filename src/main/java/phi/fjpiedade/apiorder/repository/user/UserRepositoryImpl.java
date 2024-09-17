@@ -40,16 +40,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
 //    @Transactional
-    public void save(UserModel user) {
+    public UserModel save(UserModel user) {
         em.persist(user);
         em.flush();
+        return user;
     }
 
     @Override
-//    @Transactional
-    public void update(UserModel user) {
+    public UserModel update(UserModel user) {
         em.merge(user);
         em.flush();
+        return user;
     }
 
     @Override

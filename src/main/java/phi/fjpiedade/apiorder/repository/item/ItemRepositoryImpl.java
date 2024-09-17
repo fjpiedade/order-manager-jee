@@ -1,10 +1,8 @@
 package phi.fjpiedade.apiorder.repository.item;
 
 import jakarta.ejb.Stateless;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import phi.fjpiedade.apiorder.domain.item.ItemModel;
 
 import java.util.List;
@@ -28,16 +26,18 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
 //    @Transactional
-    public void save(ItemModel item) {
+    public ItemModel save(ItemModel item) {
         em.persist(item);
         em.flush();
+        return item;
     }
 
     @Override
 //    @Transactional
-    public void update(ItemModel item) {
+    public ItemModel update(ItemModel item) {
         em.merge(item);
         em.flush();
+        return item;
     }
 
     @Override

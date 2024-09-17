@@ -143,12 +143,6 @@ public class ItemResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteItem(@PathParam("id") Long id) {
         boolean deleted = itemService.deleteItem(id);
-//        if (!deleted) {
-//            return Response.status(Response.Status.BAD_REQUEST)
-//                    .entity(Collections.singletonMap("message", "Item not found"))
-//                    .build();
-//        }
-//        return Response.ok(Collections.singletonMap("message", "Item deleted successfully")).build();
 
         if (!deleted) {
             GeneralResponse errorResponse = new GeneralResponse(
@@ -166,6 +160,6 @@ public class ItemResource {
                 "Item deleted successfully",
                 null
         );
-        return Response.status(Response.Status.CREATED).entity(successResponse).build();
+        return Response.status(Response.Status.OK).entity(successResponse).build();
     }
 }

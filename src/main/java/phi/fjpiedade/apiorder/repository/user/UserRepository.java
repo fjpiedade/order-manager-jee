@@ -8,7 +8,7 @@ public interface UserRepository {
     List<UserModel> findAll();
     UserModel findById(Long id);
     UserModel findByEmail(String email);
-    void save(UserModel user);
-    void update(UserModel user);
+    UserModel save(UserModel user);
+    UserModel update(UserModel user);
     void delete(UserModel user);
 }

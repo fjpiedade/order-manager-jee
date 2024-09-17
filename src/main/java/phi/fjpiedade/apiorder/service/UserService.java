@@ -41,9 +41,9 @@ public class UserService {
 
         user.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        userRepository.save(user);
-        logger.info("Saved new User: {}", user.getId());
-        return user;
+        UserModel userCreated = userRepository.save(user);
+        logger.info("Saved new User");
+        return userCreated;
     }
 
     public UserModel getUserById(Long id) {
@@ -62,9 +62,9 @@ public class UserService {
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
         user.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
-        userRepository.update(user);
-        logger.info("Updating User: {}", user.getId());
-        return user;
+        UserModel userUpdated = userRepository.update(user);
+        logger.info("Updating User");
+        return userUpdated;
     }
 
     public boolean deleteUser(Long id) {

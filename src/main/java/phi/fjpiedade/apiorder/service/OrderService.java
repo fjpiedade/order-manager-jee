@@ -38,7 +38,6 @@ public class OrderService {
     @Transactional
     public OrderModel createOrder(OrderModel order) {
         ItemModel item = itemRepository.findById(order.getItem().getId());
-        //logger.info("Order to be create: " + order);
         if (item == null) {
             logger.error("Item does not exist.");
             //throw new IllegalArgumentException("Item does not exist.");
