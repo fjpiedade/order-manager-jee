@@ -2,8 +2,6 @@
 
 API where users can create and manage orders. Items can be ordered and orders are automatically fulfilled as soon as the item stock allows it.
 
-<img width="1307" alt="Screenshot 2024-09-09 at 1 46 39 AM" src="https://github.com/user-attachments/assets/e1666e41-caa2-4469-a78d-866a236184ce">
-
 ![Screenshot 2024-09-17 at 6 22 09 PM](https://github.com/user-attachments/assets/6af3d82c-143b-4c2f-88ff-ac02e2013abd)
 
 
