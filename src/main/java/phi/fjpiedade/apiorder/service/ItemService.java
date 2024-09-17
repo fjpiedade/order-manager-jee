@@ -13,16 +13,12 @@ import java.util.List;
 
 @ApplicationScoped
 public class ItemService {
+    @Inject
     private ItemRepository itemRepository;
 
     Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     public ItemService() {
-    }
-
-    @Inject
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
     }
 
     public List<ItemModel> getAllItems() {
@@ -46,23 +42,26 @@ public class ItemService {
     public ItemModel updateItem(Long id, ItemModel updatedItem) {
         ItemModel item = itemRepository.findById(id);
         if (item == null) {
-            logger.error("Error occurred while updating item.");
-            throw new IllegalArgumentException("Error occurred while updating item.");
+            logger.error("Error occurred while updating item, Item not found to Update.");
+            //throw new IllegalArgumentException("Error occurred while updating item.");
+            return null;
         }
 
         item.setName(updatedItem.getName());
         item.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         itemRepository.update(item);
-        logger.info("Updating item.");
+        logger.info("Updated item.");
         return item;
     }
 
     public boolean deleteItem(Long id) {
         ItemModel item = itemRepository.findById(id);
         if (item == null) {
-            logger.error("Error deleting item.");
-            throw new IllegalArgumentException("Error occurred while deleting item.");
+            logger.error("Item not Found to delete!");
+            //throw new IllegalArgumentException("Error occurred while deleting item.");
+            return false;
         }
+
         logger.info("Item deleted.");
         itemRepository.delete(item);
         return true;

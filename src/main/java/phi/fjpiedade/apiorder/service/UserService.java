@@ -54,7 +54,7 @@ public class UserService {
     public UserModel updateUser(Long id, UserModel updatedUser) {
         UserModel user = userRepository.findById(id);
         if (user == null) {
-            logger.error("User not Found!");
+            logger.error("User not Found to update");
             //throw new IllegalArgumentException("User not Found!");
             return null;
         }
@@ -76,6 +76,5 @@ public class UserService {
         userRepository.delete(user);
         logger.info("User deleted!");
         return true;
-
     }
 }

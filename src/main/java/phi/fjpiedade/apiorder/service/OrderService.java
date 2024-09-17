@@ -40,26 +40,28 @@ public class OrderService {
         ItemModel item = itemRepository.findById(order.getItem().getId());
         //logger.info("Order to be create: " + order);
         if (item == null) {
-            logger.error("Item does not exist: " + order.getItem());
-            throw new IllegalArgumentException("Item does not exist.");
+            logger.error("Item does not exist.");
+            //throw new IllegalArgumentException("Item does not exist.");
+            return null;
         }
 
         UserModel user = userRepository.findById(order.getUser().getId());
         if (user == null) {
-            logger.error("User does not exist: " + order.getUser());
-            throw new IllegalArgumentException("User does not exist.");
+            logger.error("User does not exist.");
+//            throw new IllegalArgumentException("User does not exist.");
+            return null;
         }
 
         order.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         order.setUpdatedAt(LocalDateTime.now(ZoneId.of("UTC")));
         OrderModel orderCreated = orderRepository.save(order);
-        logger.info("Create new Order: " + orderCreated.getId());
+        logger.info("Create new Order");
 
         return orderCreated;
     }
 
     public OrderModel getOrderById(Long id) {
-        logger.info("Fetching Order By ID: {}", id);
+        logger.info("Fetching Order By ID");
         return orderRepository.findById(id);
     }
 
@@ -68,8 +70,10 @@ public class OrderService {
         OrderModel order = orderRepository.findById(id);
         if (order == null) {
             logger.error("Order not found.");
-            throw new IllegalArgumentException("Order not found.");
+//            throw new IllegalArgumentException("Order not found.");
+            return null;
         }
+
 
         order.setQuantity(updatedOrder.getQuantity());
         order.setFulfilledQuantity(updatedOrder.getFulfilledQuantity());
@@ -80,15 +84,17 @@ public class OrderService {
     }
 
     @Transactional
-    public void deleteOrder(Long id) {
+    public boolean deleteOrder(Long id) {
         OrderModel order = orderRepository.findById(id);
         if (order == null) {
             logger.error("Order not found on the delete process.");
-            throw new IllegalArgumentException("Order not found.");
+//            throw new IllegalArgumentException("Order not found.");
+            return false;
         }
 
         logger.info("Order deleted");
         orderRepository.delete(order);
+        return true;
     }
 
     public List<OrderModel> getAllCompletedOrders() {

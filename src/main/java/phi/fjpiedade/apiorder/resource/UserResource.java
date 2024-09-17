@@ -7,7 +7,6 @@ import jakarta.ws.rs.core.Response;
 
 import jakarta.transaction.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 import phi.fjpiedade.apiorder.domain.GeneralResponse;
@@ -19,20 +18,30 @@ import jakarta.inject.Inject;
 @Path("/user")
 @RequestScoped
 public class UserResource {
+    @Inject
     private UserService userService;
 
     public UserResource() {
     }
 
-    @Inject
-    public UserResource(UserService userService) {
-        this.userService = userService;
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserModel> getUsers() {
-        return userService.getAllUsers();
+    public Response getUsers() {
+        List<UserModel> listOfUsers = userService.getAllUsers();
+        if (listOfUsers.isEmpty()) {
+            GeneralResponse successResponse = new GeneralResponse(
+                    Response.Status.OK.getStatusCode(),
+                    Response.Status.OK.toString(),
+                    "List of Users is Empty!",
+                    null);
+            return Response.status(Response.Status.OK).entity(successResponse).build();
+        }
+        GeneralResponse successResponse = new GeneralResponse(
+                Response.Status.OK.getStatusCode(),
+                Response.Status.OK.toString(),
+                "User(s) retrieves successfully",
+                listOfUsers);
+        return Response.status(Response.Status.OK).entity(successResponse).build();
     }
 
     @POST
@@ -42,10 +51,6 @@ public class UserResource {
     public Response createUser(UserModel user) {
         UserModel createdUser = userService.createUser(user);
         if (createdUser == null) {
-//            return Response.status(Response.Status.BAD_REQUEST)
-//                    .entity(Collections.singletonMap("message", "Email of User already Exist!"))
-//                    .build();
-
             GeneralResponse errorResponse = new GeneralResponse(
                     Response.Status.BAD_REQUEST.getStatusCode(),
                     Response.Status.BAD_REQUEST.toString(),
@@ -61,7 +66,6 @@ public class UserResource {
                 "User created successfully",
                 createdUser
         );
-
         return Response.status(Response.Status.CREATED).entity(successResponse).build();
     }
 
@@ -71,11 +75,21 @@ public class UserResource {
     public Response getUserById(@PathParam("id") Long id) {
         UserModel user = userService.getUserById(id);
         if (user == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(Collections.singletonMap("message", "User not found"))
-                    .build();
+            GeneralResponse errorResponse = new GeneralResponse(
+                    Response.Status.BAD_REQUEST.getStatusCode(),
+                    Response.Status.BAD_REQUEST.toString(),
+                    "User not found",
+                    null);
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
-        return Response.ok(user).build();
+
+        GeneralResponse successResponse = new GeneralResponse(
+                Response.Status.OK.getStatusCode(),
+                Response.Status.OK.toString(),
+                "User retrieve successfully",
+                user
+        );
+        return Response.status(Response.Status.OK).entity(successResponse).build();
     }
 
     @PUT
@@ -84,13 +98,24 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(@PathParam("id") Long id, UserModel updatedUser) {
-        UserModel user = userService.updateUser(id, updatedUser);
-        if (user == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(Collections.singletonMap("message", "User not found"))
-                    .build();
+        UserModel userUpdated = userService.updateUser(id, updatedUser);
+        if (userUpdated == null) {
+            GeneralResponse errorResponse = new GeneralResponse(
+                    Response.Status.BAD_REQUEST.getStatusCode(),
+                    Response.Status.BAD_REQUEST.toString(),
+                    "User not found!",
+                    null
+            );
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
-        return Response.ok(user).build();
+
+        GeneralResponse successResponse = new GeneralResponse(
+                Response.Status.OK.getStatusCode(),
+                Response.Status.OK.toString(),
+                "User updated successfully",
+                userUpdated
+        );
+        return Response.status(Response.Status.OK).entity(successResponse).build();
     }
 
     @DELETE
@@ -100,11 +125,21 @@ public class UserResource {
     public Response deleteUser(@PathParam("id") Long id) {
         boolean deleted = userService.deleteUser(id);
         if (!deleted) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(Collections.singletonMap("message", "User not found"))
-                    .build();
+            GeneralResponse errorResponse = new GeneralResponse(
+                    Response.Status.BAD_REQUEST.getStatusCode(),
+                    Response.Status.BAD_REQUEST.toString(),
+                    "User not found!",
+                    null
+            );
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorResponse).build();
         }
-        return Response.ok(Collections.singletonMap("message", "User deleted successfully")).build();
-    }
 
+        GeneralResponse successResponse = new GeneralResponse(
+                Response.Status.OK.getStatusCode(),
+                Response.Status.OK.toString(),
+                "User deleted successfully",
+                null
+        );
+        return Response.status(Response.Status.OK).entity(successResponse).build();
+    }
 }

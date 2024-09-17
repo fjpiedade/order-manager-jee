@@ -3,6 +3,7 @@ package phi.fjpiedade.apiorder.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import phi.fjpiedade.apiorder.domain.item.ItemModel;
@@ -43,13 +44,15 @@ public class StockService {
 
         if (item == null) {
             logger.error("Stock does not exist.");
-            throw new IllegalArgumentException("Stock does not exist.");
+            //throw new IllegalArgumentException("Stock does not exist.");
+            return null;
         }
 
         StockModel existingStock = stockRepository.findByItemId(stock.getItem().getId());
         if (existingStock != null) {
             logger.error("Item already exists in the stock.");
-            throw new IllegalArgumentException("Item already exists in the stock.");
+            //throw new IllegalArgumentException("Item already exists in the stock.");
+            return null;
         }
 
         stock.setCreatedAt(LocalDateTime.now(ZoneId.of("UTC")));
@@ -65,7 +68,8 @@ public class StockService {
         StockModel stock = stockRepository.findById(id);
         if (stock == null) {
             logger.error("Stock not found.");
-            throw new IllegalArgumentException("Stock not found.");
+            //throw new IllegalArgumentException("Stock not found.");
+            return null;
         }
 
         stock.setQuantity(updatedStock.getQuantity());
@@ -76,26 +80,24 @@ public class StockService {
     }
 
     @Transactional
-    public void deleteStock(Long id) {
+    public boolean deleteStock(Long id) {
         StockModel stock = stockRepository.findById(id);
         if (stock == null) {
             logger.error("Stock not found on delete process.");
-            throw new IllegalArgumentException("Stock not found.");
+            //throw new IllegalArgumentException("Stock not found.");
+            return false;
         }
 
         stockRepository.delete(stock);
+        return true;
     }
 
     public int checkStockQuantity(ItemModel item) {
         logger.info("Stock checking quantity: {}", item.getId());
         Optional<StockModel> stockFounded = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
-        if (!stockFounded.isPresent()) {
-            return -1;
-        }
+        if (!stockFounded.isPresent()) return -1;
 
-        if (stockFounded.get().getQuantity() <= 0) {
-            return 0;
-        }
+        if (stockFounded.get().getQuantity() <= 0) return 0;
 
         return stockFounded.get().getQuantity();
     }
