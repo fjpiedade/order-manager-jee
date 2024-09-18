@@ -34,7 +34,7 @@ public class StockService {
     }
 
     public StockModel getStockById(Long id) {
-        logger.info("Fetching user by ID {} ", id);
+        logger.info("Fetching user by ID");
         return stockRepository.findById(id);
     }
 
@@ -93,7 +93,7 @@ public class StockService {
     }
 
     public int checkStockQuantity(ItemModel item) {
-        logger.info("Stock checking quantity: {}", item.getId());
+        logger.info("Stock checking quantity");
         Optional<StockModel> stockFounded = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
         if (!stockFounded.isPresent()) return -1;
 
@@ -103,7 +103,7 @@ public class StockService {
     }
 
     public void reduceStockQuantity(ItemModel item, int quantity) {
-        logger.info("Stock reducing quantity: {}", item.getId());
+        logger.info("Stock reducing quantity");
         Optional<StockModel> stockEntity = Optional.ofNullable(stockRepository.findByItemId(item.getId()));
         int currentQuantity = stockEntity.get().getQuantity();
         stockEntity.ifPresent(entity -> entity.setQuantity(currentQuantity - quantity));

@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public UserModel getUserById(Long id) {
-        logger.info("Fetching User By ID: {}", id);
+        logger.info("Fetching User By ID");
         return userRepository.findById(id);
     }
 

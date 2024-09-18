@@ -68,13 +68,13 @@ public class StockOrderService {
             int quantityToUse = (int) Math.min(remainingQuantity, currentStock);
             order.setFulfilledQuantity(order.getFulfilledQuantity() + quantityToUse);
             stockService.reduceStockQuantity(order.getItem(), quantityToUse);
-            logger.info("Order not completed, Stock doesn't have enough quantity of items. Order: {}", order.getId());
+            logger.info("Order not completed, Stock doesn't have enough quantity of items. Order");
         }
     }
 
     private void handleInsufficientStock(OrderModel order) {
         order.setFulfilledQuantity(0);
-        logger.info("Order Pending, Stock doesn't have quantity to attend the Order: {}", order.getId());
+        logger.info("Order Pending, Stock doesn't have quantity to attend the Order");
     }
 
     private void orderCompleted(OrderModel order) {
@@ -85,7 +85,7 @@ public class StockOrderService {
 
         emailService.sendEmail(userRepository.findById(order.getItem().getId()).getEmail(), subject, body);
 
-        logger.info("Order completed and email sent to user, Order ID: {}", order.getId());
+        logger.info("Order completed and email sent to user, Order ID");
     }
 
     public List<OrderModel> getPendingOrdersForItem(Long itemId) {
